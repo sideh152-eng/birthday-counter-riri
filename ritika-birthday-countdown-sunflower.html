@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Ritika's Birthday Countdown</title>
+<style>
+  :root{
+    --sky:#fff6df;
+    --petal:#ffcc33;
+    --petal-deep:#f5a623;
+    --leaf:#5b8c3a;
+    --leaf-deep:#3f6b27;
+    --center:#3a2412;
+    --center-light:#5c3d1f;
+    --ink:#3a2412;
+    --brown-text:#5c3d1f;
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    height:100%;
+    background:
+      radial-gradient(900px 500px at 20% -5%, rgba(255,204,51,0.35), transparent 55%),
+      radial-gradient(800px 450px at 100% 100%, rgba(91,140,58,0.25), transparent 55%),
+      linear-gradient(180deg, #fffaf0 0%, #fff3d6 55%, #ffedbf 100%);
+    color:var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    min-height:100dvh;
+    overflow-x:hidden;
+  }
+
+  .wrap{
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding: calc(env(safe-area-inset-top) + 28px) 20px calc(env(safe-area-inset-bottom) + 28px);
+    text-align:center;
+    position:relative;
+  }
+
+  .petal-deco{
+    position:absolute;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fff1b8, var(--petal) 60%, var(--petal-deep) 100%);
+    opacity:0.6;
+    animation: drift 9s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .petal-deco{animation:none;}
+  }
+  @keyframes drift{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-14px) rotate(14deg); }
+  }
+
+  .eyebrow{
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    font-size:12px;
+    color:var(--leaf-deep);
+    font-weight:700;
+    margin-bottom:10px;
+  }
+
+  h1{
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    font-size:clamp(28px,7vw,44px);
+    line-height:1.15;
+    margin:0 0 6px;
+    color:var(--brown-text);
+    font-weight:700;
+  }
+
+  h1 .name{
+    color:var(--petal-deep);
+    font-style:italic;
+  }
+
+  .subdate{
+    font-size:14px;
+    color:rgba(58,36,18,0.6);
+    margin-bottom:30px;
+  }
+
+  /* sunflower badge — signature element */
+  .flower{
+    position:relative;
+    width:min(76vw, 300px);
+    height:min(76vw, 300px);
+    margin-bottom:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .petal-ring{
+    position:absolute;
+    inset:0;
+  }
+
+  .petal-shape{
+    position:absolute;
+    width:30%;
+    height:44%;
+    left:50%;
+    top:50%;
+    background: linear-gradient(180deg, #ffe27a 0%, var(--petal) 55%, var(--petal-deep) 100%);
+    border-radius:50% 50% 50% 50% / 62% 62% 38% 38%;
+    transform-origin: 50% 100%;
+    box-shadow: 0 2px 6px rgba(90,60,10,0.15);
+  }
+
+  .center{
+    position:relative;
+    width:52%;
+    height:52%;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 32% 28%, var(--center-light) 0%, var(--center) 55%, #241608 100%);
+    box-shadow:
+      inset 0 0 0 6px rgba(255,204,51,0.25),
+      0 12px 30px rgba(58,36,18,0.35);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+  }
+
+  .days-num{
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-weight:700;
+    font-size:clamp(40px,12.5vw,64px);
+    line-height:1;
+    color:#fff6df;
+    text-shadow:0 3px 12px rgba(0,0,0,0.4);
+  }
+
+  .days-label{
+    margin-top:4px;
+    font-size:11px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:#ffe9a8;
+    font-weight:600;
+  }
+
+  .caption{
+    font-size:clamp(17px,4.6vw,21px);
+    font-weight:600;
+    color:var(--brown-text);
+    margin:0 0 24px;
+    max-width:340px;
+  }
+  .caption .accent{ color:var(--petal-deep); }
+
+  .split{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  .cell{
+    background:rgba(255,255,255,0.55);
+    border:1px solid rgba(91,140,58,0.3);
+    border-radius:16px;
+    padding:12px 16px;
+    min-width:68px;
+  }
+
+  .cell .n{
+    font-size:22px;
+    font-weight:700;
+    color:var(--leaf-deep);
+    font-variant-numeric: tabular-nums;
+  }
+  .cell .l{
+    font-size:10px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:rgba(58,36,18,0.55);
+    margin-top:3px;
+  }
+
+  .footer{
+    margin-top:28px;
+    font-size:12px;
+    color:rgba(58,36,18,0.45);
+    letter-spacing:0.05em;
+  }
+
+  .stem{
+    position:absolute;
+    bottom:-6px;
+    left:50%;
+    width:5px;
+    height:30px;
+    background: var(--leaf);
+    border-radius:3px;
+    transform: translateX(-50%);
+    display:none; /* subtle, off by default to keep badge circular/clean */
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+
+  <div class="eyebrow">Counting down to</div>
+  <h1>Ritika's <span class="name">Birthday</span></h1>
+  <div class="subdate">Ashoj 25 &middot; Sunday, October 11, 2026</div>
+
+  <div class="flower">
+    <div class="petal-ring" id="petalRing"></div>
+    <div class="center">
+      <div class="days-num" id="daysNum">--</div>
+      <div class="days-label">days to go</div>
+    </div>
+  </div>
+
+  <p class="caption" id="caption">
+    <span id="daysWord">--</span> days to go for <span class="accent">Ritika's</span> birthday!
+  </p>
+
+  <div class="split" id="split">
+    <div class="cell"><div class="n" id="hh">00</div><div class="l">Hours</div></div>
+    <div class="cell"><div class="n" id="mm">00</div><div class="l">Mins</div></div>
+    <div class="cell"><div class="n" id="ss">00</div><div class="l">Secs</div></div>
+  </div>
+
+  <div class="footer">Add to Home Screen to keep the countdown handy 🌻</div>
+</div>
+
+<script>
+  // Target: Ashoj 25 / Oct 11, 2026, midnight local time
+  var target = new Date(2026, 9, 11, 0, 0, 0); // month is 0-indexed: 9 = October
+
+  var daysNum = document.getElementById('daysNum');
+  var daysWord = document.getElementById('daysWord');
+  var caption = document.getElementById('caption');
+  var split = document.getElementById('split');
+  var hh = document.getElementById('hh');
+  var mm = document.getElementById('mm');
+  var ss = document.getElementById('ss');
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function tick(){
+    var now = new Date();
+    var diff = target.getTime() - now.getTime();
+
+    if (diff <= 0){
+      daysNum.textContent = '🎉';
+      daysWord.textContent = 'It\'s here —';
+      caption.innerHTML = 'Happy Birthday <span class="accent">Ritika</span>! 🎂';
+      split.style.display = 'none';
+      return;
+    }
+
+    var totalSeconds = Math.floor(diff / 1000);
+    var days = Math.floor(totalSeconds / 86400);
+    var hours = Math.floor((totalSeconds % 86400) / 3600);
+    var mins = Math.floor((totalSeconds % 3600) / 60);
+    var secs = totalSeconds % 60;
+
+    daysNum.textContent = days;
+    daysWord.textContent = days;
+    hh.textContent = pad(hours);
+    mm.textContent = pad(mins);
+    ss.textContent = pad(secs);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+
+  // build sunflower petals around the center
+  (function buildPetals(){
+    var ring = document.getElementById('petalRing');
+    var count = 14;
+    for (var i = 0; i < count; i++){
+      var petal = document.createElement('div');
+      petal.className = 'petal-shape';
+      var angle = (360 / count) * i;
+      petal.style.transform = 'translate(-50%, -100%) rotate(' + angle + 'deg)';
+      ring.appendChild(petal);
+    }
+  })();
+
+  // decorative drifting petals in background
+  (function petals(){
+    var wrap = document.getElementById('wrap');
+    for (var i = 0; i < 8; i++){
+      var p = document.createElement('div');
+      p.className = 'petal-deco';
+      var size = 6 + Math.random() * 12;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.top = Math.random() * 100 + '%';
+      p.style.animationDelay = (Math.random() * 6) + 's';
+      p.style.animationDuration = (7 + Math.random() * 6) + 's';
+      wrap.appendChild(p);
+    }
+  })();
+</script>
+</body>
+</html>
